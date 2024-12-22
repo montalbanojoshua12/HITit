@@ -1,0 +1,172 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HITit.MainPage"
+             Shell.NavBarIsVisible="False"
+             Title="HIT Timer"
+             Background="Black">
+
+    <Grid>
+        <!-- 1) Background image -->
+        <Image Source="background.jpg"
+               Aspect="AspectFill"
+               HorizontalOptions="Fill"
+               VerticalOptions="Fill" />
+
+        <!-- 2) Title label over the background -->
+ 
+
+        <!-- 3) Main scrollable content -->
+        <ScrollView Margin="0,50,0,0">
+            <VerticalStackLayout Spacing="20" Padding="20">
+
+                <!-- Timer Settings Section -->
+                <Frame BorderColor="Gray"
+                       CornerRadius="10"
+                       Padding="10"
+                       BackgroundColor="LightGrey"
+                       Opacity=".8">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="HIT Timer Settings"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"
+                               TextColor="Black" />
+
+                        <HorizontalStackLayout Spacing="5">
+                            <VerticalStackLayout WidthRequest="125">
+                                <Label Text="Workout Time (sec)" TextColor="Black" />
+                                <Entry x:Name="WorkoutTimeEntry"
+                                       Placeholder="30"
+                                       Keyboard="Numeric"
+                                       TextColor="Black" />
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout WidthRequest="125">
+                                <Label Text="Rest Time (sec)" TextColor="Black" />
+                                <Entry x:Name="RestTimeEntry"
+                                       Placeholder="15"
+                                       Keyboard="Numeric"
+                                       TextColor="Black" />
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout WidthRequest="100">
+                                <Label Text="Rounds" TextColor="Black" />
+                                <Entry x:Name="RoundsEntry"
+                                       Placeholder="5"
+                                       Keyboard="Numeric"
+                                       TextColor="Black" />
+                            </VerticalStackLayout>
+                        </HorizontalStackLayout>
+
+                        <!-- NEW: Pickers to select which audio to use for workout/rest -->
+                        <HorizontalStackLayout Spacing="10">
+                            <VerticalStackLayout>
+                                <Label Text="Workout Audio" TextColor="Black" />
+                                <Picker x:Name="WorkoutAudioPicker"
+                                        Title="Select Workout Audio"
+                                        TextColor="Black"
+                                        SelectedIndexChanged="OnWorkoutAudioChanged" />
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout>
+                                <Label Text="Rest Audio" TextColor="Black" />
+                                <Picker x:Name="RestAudioPicker"
+                                        Title="Select Rest Audio"
+                                        TextColor="Black"
+                                        SelectedIndexChanged="OnRestAudioChanged" />
+                            </VerticalStackLayout>
+                        </HorizontalStackLayout>
+
+                        <!-- Preset Name & Save -->
+                        <HorizontalStackLayout Spacing="10">
+                            <Entry x:Name="PresetNameEntry"
+                                   Placeholder="Preset Name"
+                                   TextColor="Black"
+                                   HorizontalOptions="FillAndExpand" />
+                            <Button Text="Save Preset"
+                                    Clicked="OnSavePresetClicked" />
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Timer Control Buttons -->
+                <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+                    <Button Text="Start"
+                            Clicked="OnStartButtonClicked"
+                            BackgroundColor="Green"
+                            TextColor="White" />
+                    <Button Text="Pause"
+                            Clicked="OnPauseButtonClicked" />
+                    <Button Text="Resume"
+                            Clicked="OnResumeButtonClicked" />
+                    <Button Text="Reset"
+                            Clicked="OnResetButtonClicked"
+                            BackgroundColor="Red"
+                            TextColor="White" />
+                </HorizontalStackLayout>
+
+                <!-- Countdown Display -->
+                <Label x:Name="CountdownLabel"
+                       Text="0"
+                       FontSize="48"
+                       HorizontalOptions="Center"
+                       VerticalOptions="CenterAndExpand"
+                       TextColor="White" />
+
+                <!-- Current Round Display -->
+                <Label x:Name="CurrentRoundLabel"
+                       Text="Round 0 / 0"
+                       FontSize="24"
+                       HorizontalOptions="Center"
+                       TextColor="White" />
+
+                <!-- Saved Presets Section -->
+                <Frame BorderColor="Gray"
+                       CornerRadius="10"
+                       Padding="10"
+                       BackgroundColor="Transparent">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Saved Presets"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"
+                               TextColor="White" />
+
+                        <CollectionView x:Name="PresetListView"
+                                        SelectionMode="Single">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Frame BorderColor="LightGray"
+                                           Padding="10"
+                                           Margin="5"
+                                           BackgroundColor="LightGrey"
+                                           Opacity=".8">
+                                        <HorizontalStackLayout Spacing="10"
+                                                               VerticalOptions="Center">
+                                            <Label Text="{Binding Name}"
+                                                   FontSize="16"
+                                                   FontAttributes="Bold"
+                                                   VerticalOptions="Center"
+                                                   TextColor="Black" />
+                                            <Button Text="Use"
+                                                    BackgroundColor="DarkSlateBlue"
+                                                    TextColor="White"
+                                                    Clicked="OnUsePresetClicked"
+                                                    CommandParameter="{Binding .}" />
+                                            <Button Text="Delete"
+                                                    BackgroundColor="DarkRed"
+                                                    TextColor="White"
+                                                    Clicked="OnDeletePresetClicked"
+                                                    CommandParameter="{Binding .}" />
+                                        </HorizontalStackLayout>
+                                    </Frame>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </VerticalStackLayout>
+                </Frame>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+
+</ContentPage>
